@@ -14,10 +14,5 @@ class App
     public void main()
     {
         say("hello world.");
-        for (var i = 0; i < 10; i++)
-        {
-            say("i is <" + i + ">.");
-        }
-        say("exit app.");
     }
 }
