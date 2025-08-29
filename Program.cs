@@ -117,6 +117,61 @@ class Program
 
         _grid(e);
     }
+
+    public static void cell(long[,] d)
+    {
+        var h = d.GetLength(0);
+        var w = d.GetLength(1);
+
+        var e = new string[h + 1, w + 1];
+        for (var i = 0; i < h; i++)
+        {
+            for (var j = 0; j < w; j++)
+            {
+                e[i + 1, j + 1] =
+                    d[i, j] <= int.MinValue ? "-inf" :
+                    int.MaxValue <= d[i, j] ? "inf" :
+                    d[i, j].ToString();
+            }
+        }
+
+        e[0, 0] = string.Empty;
+        for (var i = 0; i < h; i++)
+        {
+            e[i + 1, 0] = $"[{i}]";
+        }
+        for (var j = 0; j < w; j++)
+        {
+            e[0, j + 1] = $"[{j}]";
+        }
+
+        var max = new int[w + 1];
+        for (var i = 0; i < h + 1; i++)
+        {
+            for (var j = 0; j < w + 1; j++)
+            {
+                max[j] = Math.Max(max[j], e[i, j].Length);
+            }
+        }
+
+        for (var i = 0; i < h + 1; i++)
+        {
+            for (var j = 0; j < w + 1; j++)
+            {
+                e[i, j] = e[i, j].PadLeft(max[j]);
+            }
+        }
+
+        for (var i = 0; i < h + 1; i++)
+        {
+            for (var j = 0; j < w + 1; j++)
+            {
+                if (0 < j) Console.Write(" ");
+                Console.Write(e[i, j]);
+            }
+            Console.WriteLine();
+        }
+    }
 }
 
 class Heap
