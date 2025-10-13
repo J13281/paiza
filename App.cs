@@ -11,7 +11,7 @@ class App
 
     public void main()
     {
-        say("hello world.");
+        Console.WriteLine("https://kenkoooo.com/atcoder/#/table/m8867437287");
     }
 
     long num()

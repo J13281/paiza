@@ -7,6 +7,18 @@ class Program
         typeof(App).GetMethod(args[0]).Invoke(new App(), null);
     }
 
+    public static void push<T, U>(Dictionary<T, List<U>> d, T t, U u)
+    {
+        if (d.TryGetValue(t, out var v))
+        {
+            v.Add(u);
+        }
+        else
+        {
+            d[t] = new List<U> { u };
+        }
+    }
+
     public static void say(object o)
     {
         Console.WriteLine(o);
