@@ -184,6 +184,23 @@ class Program
             Console.WriteLine();
         }
     }
+
+    int lower(int[] d, int x, int left, int right)
+    {
+        if (left == right)
+        {
+            return left;
+        }
+        var mid = (left + right) / 2;
+        if (x <= d[mid])
+        {
+            return lower(d, x, left, mid);
+        }
+        else
+        {
+            return lower(d, x, mid + 1, right);
+        }
+    }
 }
 
 class Heap
