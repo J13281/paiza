@@ -203,57 +203,65 @@ class Program
     }
 }
 
-class Heap
+static class Heap
 {
-    List<int> d = new List<int>();
-
-    public void push(int x)
+    public static void push(List<int> d, int x)
     {
         d.Add(x);
-        rec1(d.Count - 1);
+        rec1(d, d.Count - 1);
     }
 
-    void rec1(int i)
+    public static int pop(List<int> d)
     {
-        if (i == 0) return;
-
-        var j = (i - 1) / 2;
-        if (d[i] < d[j])
-        {
-            (d[i], d[j]) = (d[j], d[i]);
-            rec1(j);
-        }
-    }
-
-    public int pop()
-    {
-        var ans = d[0];
-
+        var x = d[0];
         d[0] = d[d.Count - 1];
         d.RemoveAt(d.Count - 1);
-        rec2(0);
-
-        return ans;
+        rec2(d, 0);
+        return x;
     }
 
-    void rec2(int i)
+    static void rec1(List<int> d, int i)
     {
-        var left = i * 2 + 1;
-        var right = i * 2 + 2;
-        if (right < d.Count)
+        if (i < d.Count)
         {
-            var min = d[left] < d[right] ? left : right;
-            if (d[min] < d[i])
+            var j = (i - 1) / 2;
+            if (d[i] < d[j])
             {
-                (d[i], d[min]) = (d[min], d[i]);
-                rec2(min);
+                (d[i], d[j]) = (d[j], d[i]);
+                rec1(d, j);
             }
         }
-        else if (left < d.Count)
+    }
+
+    static void rec2(List<int> d, int i)
+    {
+        var j = i * 2 + 1;
+        var k = i * 2 + 2;
+        if (k < d.Count)
         {
-            if (d[left] < d[i])
+            if (d[j] < d[k])
             {
-                (d[i], d[left]) = (d[left], d[i]);
+                if (d[j] < d[i])
+                {
+                    (d[j], d[i]) = (d[i], d[j]);
+                    rec2(d, j);
+                }
+            }
+            else
+            {
+                if (d[k] < d[i])
+                {
+                    (d[k], d[i]) = (d[i], d[k]);
+                    rec2(d, k);
+                }
+            }
+        }
+        else if (j < d.Count)
+        {
+            if (d[j] < d[i])
+            {
+                (d[j], d[i]) = (d[i], d[j]);
+                rec2(d, j);
             }
         }
     }
