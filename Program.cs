@@ -1,5 +1,101 @@
 ﻿using Newtonsoft.Json;
 
+class Lib
+{
+    void uf_merge(int[] d, int i, int j)
+    {
+        d[uf_root(d, Math.Max(i, j))] = uf_root(d, Math.Min(i, j));
+    }
+
+    int uf_root(int[] d, int i)
+    {
+        if (d[i] == i)
+        {
+            return i;
+        }
+        else
+        {
+            return d[i] = uf_root(d, d[i]);
+        }
+    }
+
+    int heap_pop(List<int> d)
+    {
+        var x = d[0];
+        d[0] = d[d.Count - 1];
+        d.RemoveAt(d.Count - 1);
+        var n = 0;
+        while (true)
+        {
+            var l = n * 2 + 1;
+            var r = n * 2 + 2;
+            if (r < d.Count)
+            {
+                if (d[l] < d[r])
+                {
+                    if (d[l] < d[n])
+                    {
+                        (d[l], d[n]) = (d[n], d[l]); ;
+                        n = l;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if (d[r] < d[n])
+                    {
+                        (d[r], d[n]) = (d[n], d[r]);
+                        n = r;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            else if (l < d.Count)
+            {
+                if (d[l] < d[n])
+                {
+                    (d[n], d[l]) = (d[l], d[n]);
+                    n = l;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        return x;
+    }
+
+    void heap_push(List<int> d, int x)
+    {
+        d.Add(x);
+        var n = d.Count - 1;
+        while (n < d.Count)
+        {
+            var m = (n - 1) / 2;
+            if (d[n] < d[m])
+            {
+                (d[n], d[m]) = (d[m], d[n]);
+                n = m;
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+}
+
 class Program
 {
     public static void Main(string[] args)
