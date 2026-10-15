@@ -1,0 +1,44 @@
+#!/bin/perl
+
+use v5.20;
+
+my $case = shift // "input";
+
+open my $in, ".cases" or die;
+
+my $d = [];
+my $e = {};
+
+while (<$in>)
+{
+  if (/^# (.++)/)
+  {
+    push @$d, $1;
+    while (<$in>)
+    {
+      if (/^$/)
+      {
+        last;
+      }
+      else
+      {
+        push @{$$e{$$d[-1]}}, $_;
+      }
+    }
+  }
+}
+
+die if system "perl -c app.pl 2> /dev/null";
+
+my $grep = [grep {/$case/} @$d];
+for (my $i = 0; $i < @$grep; $i++)
+{
+  say "" if 0 < $i;
+  say "#### run case [$$grep[$i]] ####";
+  open my $out, "|-", "perl app.pl main" or die;
+  for my $j (@{$$e{$$grep[$i]}})
+  {
+    print $out $j;
+  }
+  close $out;
+}

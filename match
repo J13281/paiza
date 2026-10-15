@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./slv | perl -pe 's/\r//' > a.txt
+./slvp | tee b.txt > b.txt
+diff --color=auto -u a.txt b.txt

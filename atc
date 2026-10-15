@@ -1,0 +1,32 @@
+#!/bin/perl
+
+use v5.20;
+
+open my $clip, "/dev/clipboard" or die;
+
+open my $out, ">", ".cases" or die;
+select $out;
+
+while (<$clip>)
+{
+  if (/入力例 (\d)/)
+  {
+    <$clip>;
+
+    say "";
+    say "# input$1";
+
+    while (<$clip>)
+    {
+      if (/出力例/)
+      {
+        last;
+      }
+      else
+      {
+        s/\r?\n\z//g;
+        say;
+      }
+    }
+  }
+}
